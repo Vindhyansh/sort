@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Bubble Sort Animation</title>
+    <style>
+      #container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .array-container {
+        display: flex;
+      }
+
+      .array-element {
+        width: 50px;
+        height: 50px;
+        margin: 5px;
+        background-color: blue;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <div class="array-container">
+        <div class="array-element" id="element-0"></div>
+        <div class="array-element" id="element-1"></div>
+        <div class="array-element" id="element-2"></div>
+        <!-- Add more elements as needed -->
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.0/lib/anime.min.js"></script>
+    <script>
+      const array = [3, 1, 2];
+      const arrayLength = array.length;
+
+      for (let i = 0; i < arrayLength; i++) {
+        for (let j = 0; j < arrayLength - i - 1; j++) {
+          const firstElement = document.getElementById(`element-${j}`);
+          const secondElement = document.getElementById(`element-${j + 1}`);
+          
+          if (array[j] > array[j + 1]) {
+            // Swap elements in the array
+            const temp = array[j];
+            array[j] = array[j + 1];
+            array[j + 1] = temp;
+
+            // Animate the swap
+            const firstElementRect = firstElement.getBoundingClientRect();
+            const secondElementRect = secondElement.getBoundingClientRect();
+            
+            const firstElementClone = firstElement.cloneNode();
+            const secondElementClone = secondElement.cloneNode();
+            
+            firstElementClone.style.position = 'fixed';
+            firstElementClone.style.left = `${firstElementRect.left}px`;
+            firstElementClone.style.top = `${firstElementRect.top}px`;
+            document.body.appendChild(firstElementClone);
+            
+            secondElementClone.style.position = 'fixed';
+            secondElementClone.style.left = `${secondElementRect.left}px`;
+            secondElementClone.style.top = `${secondElementRect.top}px`;
+            document.body.appendChild(secondElementClone);
+            
+           const swapAnimation = anime({
+        targets: [firstElementClone, secondElementClone],
+        left: [firstElementRect.left, secondElementRect.left],
+        top: [firstElementRect.top, secondElementRect.top],
+        duration: 500,
+        easing: 'easeInOutQuad',
+        complete: () => {
+          firstElement.style.height = `${array[j]}px`;
+          secondElement.style.height = `${array[j + 1]}px`;
+          
+          document.body.removeChild(firstElementClone);
+          document.body.removeChild(secondElementClone);
+        },
+      });
+
+</script>
+</body>
+</html>
